@@ -24,27 +24,27 @@
     <style>
       /* font-face와 font-family */
       @font-face {
-        font-family: "SUITE-Regular";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2")
-          format("woff2");
+        font-family: 'SUITE-Regular';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2')
+          format('woff2');
         font-weight: 400;
         font-style: normal;
       }
 
       @font-face {
-        font-family: "Yeongdo-Rg";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/Yeongdo-Rg.woff")
-          format("woff");
+        font-family: 'Yeongdo-Rg';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/Yeongdo-Rg.woff')
+          format('woff');
         font-weight: normal;
         font-style: normal;
       }
 
       * {
-        font-family: "SUITE-Regular";
+        font-family: 'SUITE-Regular';
       }
 
       h1 {
-        font-family: "Yeongdo-Rg", sans-serif;
+        font-family: 'Yeongdo-Rg', sans-serif;
       }
 
       .mytitle {
@@ -65,7 +65,7 @@
             rgba(0, 0, 0, 0.5),
             rgba(0, 0, 0, 0.5)
           ),
-          url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1744&q=80");
+          url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1744&q=80');
         background-position: center;
         background-size: cover;
       }
@@ -116,12 +116,61 @@
         margin-right: 10px;
       }
     </style>
+    <script>
+      $(document).ready(function () {
+        fetch('http://spartacodingclub.shop/sparta_api/weather/seoul')
+          .then((res) => res.json())
+          .then((data) => {
+            let temp = data['temp'];
+            $('#temp').text(temp);
+          });
+
+        fetch('http://spartacodingclub.shop/web/api/movie')
+          .then((res) => res.json())
+          .then((data) => {
+            let rows = data['movies'];
+
+            // $('#cards').empty();
+
+            rows.forEach((a) => {
+              let title = a['title'];
+              let desc = a['desc'];
+              let star = a['star'];
+              let comment = a['comment'];
+              let image = a['image'];
+
+              let star_emoji = '⭐'.repeat(star);
+
+              let temp_html = `<div class="col">
+          <div class="card">
+            <img
+              src="${image}"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <h5 class="card-title">${title}</h5>
+              <p class="card-text">
+                ${desc}
+              </p>
+              <p>${star_emoji}</p>
+              <p class="mycomment">${comment}</p>
+            </div>
+          </div>
+        </div>`;
+
+              $('#cards').append(temp_html);
+            });
+          });
+      });
+    </script>
   </head>
 
   <body>
     <div class="mytitle">
-      <h1>내 생애 최고의 영화들</h1>
-      <button>영화 기록하기</button>
+      <h1>내 생애 최고의 영화들!</h1>
+      <div>현재 서울의 날씨 : <span id="temp">20</span>도</div>
+      <button onclick="hey()">영화 기록하기</button>
     </div>
     <div class="mypost">
       <div class="form-floating mb-3">
@@ -132,6 +181,17 @@
           placeholder="name@example.com"
         />
         <label for="floatingInput">영화 URL</label>
+      </div>
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">별점</label>
+        <select class="form-select" id="inputGroupSelect01">
+          <option selected>--- 선택하기 ---</option>
+          <option value="1">⭐</option>
+          <option value="2">⭐⭐</option>
+          <option value="3">⭐⭐⭐</option>
+          <option value="4">⭐⭐⭐⭐</option>
+          <option value="5">⭐⭐⭐⭐⭐</option>
+        </select>
       </div>
       <div class="form-floating">
         <textarea
@@ -147,24 +207,24 @@
       </div>
     </div>
     <div class="mycards">
-      <div class="row row-cols-1 row-cols-md-4 g-4">
+      <div id="cards" class="row row-cols-1 row-cols-md-4 g-4">
         <div class="col">
           <div class="card">
             <img
-              src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
+              src="https://i.namu.wiki/i/ZNrKrR0nnOy0wy8ysDcSpZ0T_YZfbdWUqMYhyPgrfOdvPQ-8TN_14M38WWoHP-jiWSp8UVcSAWfmnAQSv3ESTRkm3LwXHQ4O_hGc1Kglh2Xgl5zZOFb4Vpf7FRfUjKvNiDX-umsU_WK3zC4DfZNy4A.webp"
               class="card-img-top"
               alt="..."
             />
             <div class="card-body">
-              <h5 class="card-title">더 수어사이드 스쿼드</h5>
+              <h5 class="card-title">어벤져스 : 엔드게임</h5>
               <p class="card-text">
-                정부는 세계에서 가장 위험한 악당들을 적들이 가득한 외딴 코르토
-                말테제의 섬으로 보낸다. 첨단 무기들로 무장한 악당들은 오로지
-                대령 릭 플래그의 진두지휘 아래에서 정글을 살피며 수색 토벌
-                임무를 진행한다.
+                인피니티 워 이후 많은 사람들이 죽고 또 많은 것을 잃게 된 지구는
+                더 이상 희망이 남지 않아 절망 속에 살아간다. 전쟁 후 남아 있던
+                어벤져스는 그런 그들의 모습을 보게 되고 마지막으로 지구를 살리기
+                위해 모든 것을 걸고 타노스와 최후의 전쟁을 치루기 위해 진격한다.
               </p>
-              <p>⭐⭐⭐</p>
-              <p class="mycomment">할리퀸이 가장 유명한 영화</p>
+              <p>⭐⭐⭐⭐⭐</p>
+              <p class="mycomment">I am Iron Man.</p>
             </div>
           </div>
         </div>
